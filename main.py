@@ -2,6 +2,9 @@ from source.CreateBoard import PuzzleBoard
 
 def run():
 
+    print('\n\n')
+
+
     params = {
         'size': '6',
         'preset': '123r23bkj'
