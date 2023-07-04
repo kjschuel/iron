@@ -15,8 +15,11 @@ def run():
     print('Board Size:\t %i' % board.size)
     print('Board:\t\t %s' % board.board_pieces)
 
+    board.forge()
+    # board.displayOptions
 
 
+    print('\n\n')
 
 if __name__ == '__main__':
     run()
