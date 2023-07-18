@@ -58,28 +58,43 @@ class PuzzleBoard:
     def drawBoard(self):
         return 1
 
-
     def _initializeParams(self, params):
 
         if not isinstance(params, dict):
             print('Error: \'dict\' expected as the input form.')
             exit(0)
 
+        self._initializeSize(params)
+        self._initializeBoard(params)
+   
+    def _validChoices(self, choices):
+        #TODO complete
+        #1. if 'all' this is valid at all times
+        #2. choices are given as alpha/numeric combos, make sure the choice is
+        #   a. fitting for the size of the board
+        #   b. does not appear at a hole. 
+        return True
+    
+    def _initializeSize(self, params):
         try:
             size = params['size']
         except KeyError:
+            print('Warning: a size was not given.')
             size = None
 
+        try:
+            size = int(size)
+        except ValueError:
+            print('Warning: poor format for size; using a size = 6.')
+            size = 6
+
+        self.setSize(size)
+
+    def _initializeBoard(self, params):
         try:
             board_pieces = params['preset']
         except KeyError:
             board_pieces = None
-
-        if size is None and board_pieces is None:
-            print('Error: an initial size or board must be given.')
-            exit(0)
-
-        self.setSize(params['size'])
 
         if board_pieces is not None:
 
@@ -89,7 +104,7 @@ class PuzzleBoard:
 
             board_pieces = board_pieces.upper()
 
-            if int(size)**2 != len(board_pieces):
+            if self.size**2 != len(board_pieces):
                 print('Error: the size given does not match the size of the' + 
                       ' preset board being used.')
                 exit(0)
@@ -107,42 +122,19 @@ class PuzzleBoard:
                 print(self._viable_pieces)
                 exit(0)
 
-            self.setBoard(board_pieces)
-
-        else:   # size not none and board_pieces is none
-
-            if not isinstance(size, int):
-                print('Error: The board size must be of type \'int\'.')
-                exit(0)
-
+        else:
             print('Warning: No board setup specified. Creating a Random board.')
             from toolshed.StringFun import generateRandomStringUsing
+            board_pieces = ''.join(generateRandomStringUsing(self.size**2,
+                                                   self._viable_pieces))
+        
+        self.setBoard(board_pieces)
 
-            self.size = size
-            self.board = generateRandomStringUsing(size**2,
-                                                   self._viable_pieces)
-   
-    def _validChoices(self, choices):
-        #TODO complete
-        #1. if 'all' this is valid at all times
-        #2. choices are given as alpha/numeric combos, make sure the choice is
-        #   a. fitting for the size of the board
-        #   b. does not appear at a hole. 
-        return True
-    
     def _mapRoute(self, map, choices):
 
         routes = []
 
         for choice in choices:
             self.getPiece(choice)
-
-
-
-
-
-
-
-
 
         return True
