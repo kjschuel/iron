@@ -6,14 +6,14 @@ def run():
 
 
     params = {
-        'size': '6',
-        'preset': '123r23bkj'
+        'size': 3,
+        'preset': '123r03bkj'
     }
 
     board = PuzzleBoard(params)
 
     print('Board Size:\t %i' % board.size)
-    print('Board:\t\t %s' % board.board_pieces)
+    print('Board:\t\t %s' % board.board)
 
     board.forge()
     # board.displayOptions

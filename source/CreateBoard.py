@@ -2,7 +2,7 @@
 class PuzzleBoard:
 
     size = None
-    board_pieces = None
+    board = None
     _viable_pieces = ['1', '2', '3', '4',
         'R',    # Rook
         'B',    # Bishop
@@ -22,9 +22,16 @@ class PuzzleBoard:
         else:
             print('Error: new size must be an \'int\'')
 
-    def setBoardPieces(self, new_board_pieces):
+    def setBoard(self, new_board_pieces):
         if isinstance(new_board_pieces, str):
-            self.board_pieces = new_board_pieces
+            placeholder = []
+            new_row = []
+            for i, piece in enumerate(new_board_pieces):
+                new_row.append(piece)
+                if len(new_row) == self.size:
+                    placeholder.append(new_row)
+                    new_row = []
+            self.board = placeholder
         else:
             print('Error: new board must be a \'string\'')
 
@@ -47,6 +54,9 @@ class PuzzleBoard:
     def getPiece(self, position):
         #TODO: return the piece
         return True
+    
+    def drawBoard(self):
+        return 1
 
 
     def _initializeParams(self, params):
@@ -69,7 +79,9 @@ class PuzzleBoard:
             print('Error: an initial size or board must be given.')
             exit(0)
 
-        elif board_pieces is not None:
+        self.setSize(params['size'])
+
+        if board_pieces is not None:
 
             if not isinstance(board_pieces, str):
                 print('Error: The board must be of type \'string\'.')
@@ -77,8 +89,10 @@ class PuzzleBoard:
 
             board_pieces = board_pieces.upper()
 
-            if size is not None:
-                print('Warning: a size was given but a preset board was used.')
+            if int(size)**2 != len(board_pieces):
+                print('Error: the size given does not match the size of the' + 
+                      ' preset board being used.')
+                exit(0)
 
             from toolshed.MathFuncs import is_square
             num_pieces = len(board_pieces)
@@ -93,8 +107,7 @@ class PuzzleBoard:
                 print(self._viable_pieces)
                 exit(0)
 
-            self.setSize(num_pieces)
-            self.setBoardPieces(board_pieces)
+            self.setBoard(board_pieces)
 
         else:   # size not none and board_pieces is none
 
@@ -106,8 +119,8 @@ class PuzzleBoard:
             from toolshed.StringFun import generateRandomStringUsing
 
             self.size = size
-            self.board_pieces = generateRandomStringUsing(size**2,
-                                                          self._viable_pieces)
+            self.board = generateRandomStringUsing(size**2,
+                                                   self._viable_pieces)
    
     def _validChoices(self, choices):
         #TODO complete
