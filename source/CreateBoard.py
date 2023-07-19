@@ -3,6 +3,7 @@ class PuzzleBoard:
 
     size = None
     board = None
+    moves = None
     _viable_pieces = ['1', '2', '3', '4',
         'R',    # Rook
         'B',    # Bishop
@@ -35,6 +36,13 @@ class PuzzleBoard:
         else:
             print('Error: new board must be a \'string\'')
 
+    def setMoves(self, moves):
+        if isinstance(moves, list):
+            # TODO: check if valid move
+            pass 
+        # remove moves that index a '0'
+        self.moves = moves
+
     def forge(self, choices=None):
         if choices == None:
             choices = 'all'
@@ -66,6 +74,7 @@ class PuzzleBoard:
 
         self._initializeSize(params)
         self._initializeBoard(params)
+        self._initializeMoves(params)
    
     def _validChoices(self, choices):
         #TODO complete
@@ -129,6 +138,28 @@ class PuzzleBoard:
                                                    self._viable_pieces))
         
         self.setBoard(board_pieces)
+
+    def _initializeMoves(self, params):
+
+        try:
+            moves = params['moves']
+        except KeyError:
+            moves = None
+        
+        if moves == 'all':
+            temp_moves = []
+            for i in range(self.size):
+                for j in range(self.size):
+                    if self.board[i][j] == '0':
+                        continue
+                    temp_moves.append([i, j])
+            moves = temp_moves
+
+        self.setMoves(moves)
+
+            
+
+
 
     def _mapRoute(self, map, choices):
 

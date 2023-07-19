@@ -7,13 +7,15 @@ def run():
 
     params = {
         'size': '3',
-        # 'preset': '123r03bkj'
+        'preset': '123r03bkj',
+        'moves': 'all'
     }
 
     board = PuzzleBoard(params)
 
     print('Board Size:\t %i' % board.size)
     print('Board:\t\t %s' % board.board)
+    print('Moves:\t\t %s' % board.moves)
 
     print('\n\n')
 
